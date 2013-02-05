@@ -9,7 +9,7 @@ def main():
         sys.exit(1)
 
     # The employee ID that this program will consider to be the user
-    employeeID = '43906'
+    employeeID = '64610'
 
     # Open "AllCommunicationList.xml", a list of email interactions of Enron employees
     f = open('AllCommunicationList.xml', 'rU')
@@ -39,20 +39,32 @@ def main():
                     totalemails[numbers[1]] = numbers[5]
     f.close()
 
-   
+
+    # Open "AddressList.xml", a list of emails and email ID numbers
+    f = open('AddressList.xml', 'rU')
+    # Dict to store addresses
+    addresses = {}
+    for line in f:
+        if line[0] == ' ':
+            addressline = line.split('"')
+            if addressline[3] in totalemails or addressline[3] == employeeID:
+                addresses[addressline[3]] = addressline[1]
+    f.close()
+
+
     # Open json file to write to
     fw = open('emaildata.json', 'w')
 
-    fw.write('{\n  "nodes":[\n    {"name":"Me","group":1},\n')
+    fw.write('{\n  "nodes":[\n    {"name":"Me (' + addresses[employeeID] + ')","group":1},\n')
 
     num = 1
 
     # Write each node
     for item in totalemails:
         if num == len(totalemails):
-            fw.write('    {"name":"' + item + '","group":2}\n')
+            fw.write('    {"name":"' + addresses[item] + '","group":2}\n')
         else:
-            fw.write('    {"name":"' + item + '","group":2},\n')
+            fw.write('    {"name":"' + addresses[item] + '","group":2},\n')
         num = num + 1
 
     fw.write('  ],\n  "links":[\n')
