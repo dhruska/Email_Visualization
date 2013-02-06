@@ -62,9 +62,9 @@ def main():
     # Write each node
     for item in totalemails:
         if num == len(totalemails):
-            fw.write('    {"name":"' + addresses[item] + '","group":2}\n')
+            fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + '}\n')
         else:
-            fw.write('    {"name":"' + addresses[item] + '","group":2},\n')
+            fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + '},\n')
         num = num + 1
 
     fw.write('  ],\n  "links":[\n')
