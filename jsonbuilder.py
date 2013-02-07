@@ -4,12 +4,12 @@ import sys
 
 def main():
     # Check that no parameters were included
-    if len(sys.argv) != 1:
-        print 'usage: ./jsonbuilder.py'
+    if len(sys.argv) != 2:
+        print 'Usage: ./jsonbuilder.py IDnum (i.e. 64610)'
         sys.exit(1)
 
     # The employee ID that this program will consider to be the user
-    employeeID = '64610'
+    employeeID = sys.argv[1]
 
     # Open "AllCommunicationList.xml", a list of email interactions of Enron employees
     f = open('AllCommunicationList.xml', 'rU')
@@ -55,16 +55,16 @@ def main():
     # Open json file to write to
     fw = open('emaildata.json', 'w')
 
-    fw.write('{\n  "nodes":[\n    {"name":"Me (' + addresses[employeeID] + ')","group":1},\n')
+    fw.write('{\n  "nodes":[\n    {"name":"Me (' + addresses[employeeID] + ')","group":1, "total":5},\n')
 
     num = 1
 
     # Write each node
     for item in totalemails:
         if num == len(totalemails):
-            fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + '}\n')
+            fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + ',"total":' + str(int(totalemails[item])/100 + 5) + '}\n')
         else:
-            fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + '},\n')
+            fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + ',"total":' + str(int(totalemails[item])/100 + 5) + '},\n')
         num = num + 1
 
     fw.write('  ],\n  "links":[\n')
