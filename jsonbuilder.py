@@ -14,14 +14,16 @@ def main():
     # Open "AllCommunicationList.xml", a list of email interactions of Enron employees
     f = open('AllCommunicationList.xml', 'rU')
 
-    # Dicts to store the number of emails sent and received to/from each user
+    # Dicts to store the number of emails sent and received to/from each user. Use of this data is TBD.
     sent = {}
     received = {}
-    # Dict for total emails sent/received to each user
+    # Dict for total emails sent/received to each user. This is used to size each node.
     totalemails = {}
 
+    # Total emails sent/received for the user. This is used to size the middle "Me" node.
     myTotalEmails = 0
 
+    # Load sent, received, and totalemails lists
     for line in f:
         if line[0] == ' ':
             numbers = line.split('"')
@@ -48,6 +50,8 @@ def main():
     f = open('AddressList.xml', 'rU')
     # Dict to store addresses
     addresses = {}
+
+    # Store the address for each email ID
     for line in f:
         if line[0] == ' ':
             addressline = line.split('"')
@@ -61,9 +65,8 @@ def main():
 
     fw.write('{\n  "nodes":[\n    {"name":"Me (' + addresses[employeeID] + ')","group":1, "total":' + str(int(myTotalEmails)/1000 + 5) + '},\n')
 
-    num = 1
-
     # Write each node
+    num = 1
     for item in totalemails:
         if num == len(totalemails):
             fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + ',"total":' + str(int(totalemails[item])/100 + 5) + '}\n')
@@ -73,16 +76,13 @@ def main():
 
     fw.write('  ],\n  "links":[\n')
 
-    num = 1
-
     # Write each link
+    num = 1
     for item in totalemails:
         if num == len(totalemails):
             fw.write('    {"source":0,"target":' + str(num) + ',"value":2}\n')
         else:
             fw.write('    {"source":0,"target":' + str(num) + ',"value":2},\n')
-
-
         num = num + 1
 
     fw.write('  ]\n}')
