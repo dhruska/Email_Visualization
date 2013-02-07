@@ -1,6 +1,6 @@
 {
   "nodes":[
-    {"name":"Me (pete.davis@enron.com)","group":1, "total":5},
+    {"name":"Me (pete.davis@enron.com)","group":1, "total":62},
     {"name":"david.forster@enron.com","group":2,"total":5},
     {"name":"will.smith@enron.com","group":3,"total":5},
     {"name":"ryan.slinger@enron.com","group":4,"total":60},

@@ -20,12 +20,15 @@ def main():
     # Dict for total emails sent/received to each user
     totalemails = {}
 
+    myTotalEmails = 0
+
     for line in f:
         if line[0] == ' ':
             numbers = line.split('"')
 
             if numbers[1] == employeeID:
                 sent[numbers[3]] = numbers[5]
+                myTotalEmails += int(numbers[5])
                 if numbers[3] in totalemails:
                     totalemails[numbers[3]] = int(totalemails[numbers[3]]) + int(numbers[5])
                 else:
@@ -33,6 +36,7 @@ def main():
 
             elif numbers[3] == employeeID:
                 received[numbers[1]] = numbers[5]
+                myTotalEmails += int(numbers[5])
                 if numbers[1] in totalemails:
                     totalemails[numbers[1]] = int(totalemails[numbers[1]]) + int(numbers[5])
                 else:
@@ -55,16 +59,16 @@ def main():
     # Open json file to write to
     fw = open('emaildata.json', 'w')
 
-    fw.write('{\n  "nodes":[\n    {"name":"Me (' + addresses[employeeID] + ')","group":1, "total":5},\n')
+    fw.write('{\n  "nodes":[\n    {"name":"Me (' + addresses[employeeID] + ')","group":1, "total":' + str(int(myTotalEmails)/1000 + 5) + '},\n')
 
     num = 1
 
     # Write each node
     for item in totalemails:
         if num == len(totalemails):
-            fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + ',"total":' + str(int(totalemails[item])/100 + 5) + ',"charge":' + str(int((-1)*(totalemails[item])/100 + 5)) + '}\n')
+            fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + ',"total":' + str(int(totalemails[item])/100 + 5) + '}\n')
         else:
-            fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + ',"total":' + str(int(totalemails[item])/100 + 5) + ',"charge":' + str(int((-1)*(totalemails[item])/100 + 5)) + '},\n')
+            fw.write('    {"name":"' + addresses[item] + '","group":' + str(num+1) + ',"total":' + str(int(totalemails[item])/100 + 5) + '},\n')
         num = num + 1
 
     fw.write('  ],\n  "links":[\n')
