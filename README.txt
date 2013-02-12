@@ -1,6 +1,6 @@
 The goal of this project is to visually represent a user's email. In lieu of using my personal email account, I used the Enron corpus located at http://arg.vsb.cz/arg/Enron_Corpus/.
 
-View the visualization: http://bl.ocks.org/d/4733753/
+View the visualization: http://bl.ocks.org/d/4760914/
 
 The visualization is made with D3.js (http://d3js.org), and is extended from the Force-Directed Graph implementation.
 
